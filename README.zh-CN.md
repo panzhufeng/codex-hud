@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-Codex HUD 是基于 [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud) 改造的 Codex 插件。它保留了原项目的终端 HUD 渲染风格，并针对 Codex 做了适配：读取 Codex 的 rollout JSONL 会话文件，提供 Codex 插件命令和 skills，并且可以把 Codex 原生 TUI footer 配置成当前平台最接近 HUD 的固定字段。
+Codex HUD 是基于 [`claude-hud`](https://github.com/jarrodwatts/claude-hud) 改造的 Codex 插件。它保留了原项目的终端 HUD 渲染风格，并针对 Codex 做了适配：读取 Codex 的 rollout JSONL 会话文件，提供 Codex 插件命令和 skills，并且可以把 Codex 原生 TUI footer 配置成当前平台最接近 HUD 的固定字段。
 
 ## 演示
 
