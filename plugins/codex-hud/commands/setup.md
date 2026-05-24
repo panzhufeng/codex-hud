@@ -8,23 +8,36 @@ Use this command when the user asks to install, set up, verify, repair, or run C
 
 ## Preflight
 
-1. Check that the repository marketplace is configured and the plugin is enabled:
+1. Check whether Codex HUD is already visible to Codex:
 
 ```bash
-codex plugin list | rg 'Marketplace `codex-hud`|codex-hud@codex-hud'
+codex plugin list | grep -E 'codex-hud@(codex-hud|personal)|Marketplace `codex-hud`'
 ```
 
-2. If the plugin is missing, install it from this repository marketplace:
+2. If the plugin is missing and the user has cloned this repository, install it from the repository root:
 
 ```bash
-codex plugin marketplace add /home/eric/Desktop/codex-hud
+cd /path/to/codex-hud
+codex plugin marketplace add "$PWD"
 codex plugin add codex-hud@codex-hud
 ```
 
-3. Locate the newest installed plugin runtime:
+If the user has not cloned the repository yet:
 
 ```bash
-ls -d "${CODEX_HOME:-$HOME/.codex}"/plugins/cache/codex-hud/codex-hud/*/ 2>/dev/null | sort -V | tail -1
+git clone git@github.com:panzhufeng/codex-hud.git
+cd codex-hud
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
+```
+
+Use `https://github.com/panzhufeng/codex-hud.git` instead of the SSH URL if SSH keys are not configured.
+
+3. Locate the newest installed plugin runtime. This works for both repository marketplaces and the default personal marketplace:
+
+```bash
+PLUGIN_ROOT="$(ls -d "${CODEX_HOME:-$HOME/.codex}"/plugins/cache/*/codex-hud/*/ 2>/dev/null | sort -V | tail -1)"
+printf '%s\n' "$PLUGIN_ROOT"
 ```
 
 4. Check that Node.js is available:
@@ -35,17 +48,17 @@ command -v node && node --version
 
 ## Verify Rendering
 
-Render the latest Codex session:
+Render the latest Codex session from the installed plugin runtime:
 
 ```bash
-node /home/eric/Desktop/codex-hud/plugins/codex-hud/dist/index.js
+node "$PLUGIN_ROOT/dist/index.js"
 ```
 
 Render a specific rollout file:
 
 ```bash
 CODEX_HUD_SESSION="$HOME/.codex/sessions/YYYY/MM/DD/rollout-....jsonl" \
-  node /home/eric/Desktop/codex-hud/plugins/codex-hud/dist/index.js
+  node "$PLUGIN_ROOT/dist/index.js"
 ```
 
 The output should include model, project, git, context, and usage lines. With activity enabled in config, it should also include tools, todos, agents, session time, and session tokens.
@@ -55,7 +68,7 @@ The output should include model, project, git, context, and usage lines. With ac
 Codex does not accept arbitrary command-backed footer text yet, but it does expose fixed built-in footer items through `[tui].status_line`. Configure the closest native footer with:
 
 ```bash
-node /home/eric/Desktop/codex-hud/plugins/codex-hud/scripts/configure-codex-tui-statusline.mjs
+node "$PLUGIN_ROOT/scripts/configure-codex-tui-statusline.mjs"
 ```
 
 This writes:

@@ -81,5 +81,5 @@ After changing TypeScript, run:
 ```bash
 npm run build
 npm test
-python3 /home/eric/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" .
 ```

@@ -12,20 +12,33 @@ Use this skill when the user asks to set up, install, verify, repair, or run Cod
 1. Confirm the plugin is installed and enabled:
 
 ```bash
-codex plugin list | rg 'codex-hud@codex-hud|Marketplace `codex-hud`'
+codex plugin list | grep -E 'codex-hud@(codex-hud|personal)|Marketplace `codex-hud`'
 ```
 
-If it is not listed, install the repository marketplace and plugin:
+If it is not listed and the repository is already cloned, install the repository marketplace and plugin from the repository root:
 
 ```bash
-codex plugin marketplace add /home/eric/Desktop/codex-hud
+cd /path/to/codex-hud
+codex plugin marketplace add "$PWD"
 codex plugin add codex-hud@codex-hud
 ```
 
-2. Locate the installed plugin runtime:
+If the repository is not cloned yet:
 
 ```bash
-ls -d "${CODEX_HOME:-$HOME/.codex}"/plugins/cache/codex-hud/codex-hud/*/ 2>/dev/null | sort -V | tail -1
+git clone git@github.com:panzhufeng/codex-hud.git
+cd codex-hud
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
+```
+
+Use `https://github.com/panzhufeng/codex-hud.git` when SSH keys are not configured.
+
+2. Locate the installed plugin runtime. This cache layout covers both repository and personal marketplace installs:
+
+```bash
+PLUGIN_ROOT="$(ls -d "${CODEX_HOME:-$HOME/.codex}"/plugins/cache/*/codex-hud/*/ 2>/dev/null | sort -V | tail -1)"
+printf '%s\n' "$PLUGIN_ROOT"
 ```
 
 3. Check Node.js:
@@ -37,20 +50,20 @@ command -v node && node --version
 4. Render a HUD snapshot from the latest Codex session:
 
 ```bash
-node /home/eric/Desktop/codex-hud/plugins/codex-hud/dist/index.js
+node "$PLUGIN_ROOT/dist/index.js"
 ```
 
 Or render a specific rollout file:
 
 ```bash
 CODEX_HUD_SESSION="$HOME/.codex/sessions/YYYY/MM/DD/rollout-....jsonl" \
-  node /home/eric/Desktop/codex-hud/plugins/codex-hud/dist/index.js
+  node "$PLUGIN_ROOT/dist/index.js"
 ```
 
 5. Optionally configure Codex's native fixed footer to show the closest built-in fields:
 
 ```bash
-node /home/eric/Desktop/codex-hud/plugins/codex-hud/scripts/configure-codex-tui-statusline.mjs
+node "$PLUGIN_ROOT/scripts/configure-codex-tui-statusline.mjs"
 ```
 
 This updates `${CODEX_HOME:-~/.codex}/config.toml` with `[tui].status_line` entries for model/reasoning, task progress, current directory, git branch, context usage, five-hour limit, and weekly limit. It creates a timestamped backup before replacing existing status line keys.

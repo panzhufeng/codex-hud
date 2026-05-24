@@ -30,23 +30,46 @@ plugins/codex-hud/scripts/         # local configuration helpers
 
 ## Install From This Repository
 
+Requirements:
+
+- Codex CLI with plugin support. This repo has been verified with `codex-cli 0.133.0`.
+- Git.
+- Node.js 18 or newer for local HUD snapshots, footer configuration, and development commands.
+
 ```bash
-git clone https://github.com/panzhufeng/codex-hud.git
+git clone git@github.com:panzhufeng/codex-hud.git
 cd codex-hud
 codex plugin marketplace add "$PWD"
 codex plugin add codex-hud@codex-hud
 ```
 
+If SSH keys are not configured, clone with HTTPS instead:
+
+```bash
+git clone https://github.com/panzhufeng/codex-hud.git
+```
+
 Verify:
 
 ```bash
-codex plugin list | rg 'codex-hud'
+codex plugin list | grep -E 'codex-hud@codex-hud'
 node plugins/codex-hud/dist/index.js
+```
+
+Then start a new Codex thread so the newly installed plugin skills and commands are loaded.
+
+To upgrade later:
+
+```bash
+cd codex-hud
+git pull
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
 ```
 
 ## Global Personal Install
 
-For a machine-wide personal install, keep the plugin under `~/plugins/codex-hud` and register it in the default personal marketplace at `~/.agents/plugins/marketplace.json`:
+The repository marketplace install above is the recommended path for most users. For a machine-wide personal install, keep the plugin under `~/plugins/codex-hud` and register it in the default personal marketplace at `~/.agents/plugins/marketplace.json`:
 
 ```bash
 mkdir -p ~/plugins ~/.agents/plugins
@@ -129,7 +152,7 @@ The plugin also exposes setup and configuration skills that Codex can invoke whe
 
 ```bash
 cd plugins/codex-hud
-npm install
+npm ci
 npm run build
 npm test
 node dist/index.js
@@ -142,11 +165,18 @@ CODEX_HUD_SESSION="$HOME/.codex/sessions/YYYY/MM/DD/rollout-....jsonl" \
   node dist/index.js
 ```
 
-Validate the plugin manifest:
+Validate the plugin manifest from the repository root:
 
 ```bash
-python3 /path/to/plugin-creator/scripts/validate_plugin.py plugins/codex-hud
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" plugins/codex-hud
 ```
+
+## Troubleshooting
+
+- `codex plugin add codex-hud@codex-hud` cannot find the plugin: run `codex plugin marketplace add "$PWD"` from the repository root, then retry the add command.
+- `node plugins/codex-hud/dist/index.js` prints only an initializing line: open at least one Codex session first, or pass `CODEX_HUD_SESSION=/path/to/rollout.jsonl`.
+- The full HUD does not appear below the Codex input box: this is a current Codex platform limitation. Run `node plugins/codex-hud/scripts/configure-codex-tui-statusline.mjs` for the closest native footer.
+- `node` is not found: install Node.js 18 or newer and rerun the command.
 
 ## Codex Platform Limitation
 

@@ -7,9 +7,17 @@ This directory contains the installable Codex plugin package for Codex HUD, adap
 ## Run Locally
 
 ```bash
-npm install
+npm ci
 npm run build
 node dist/index.js
+```
+
+Install this plugin from the repository root:
+
+```bash
+cd ../..
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
 ```
 
 Render a specific Codex session:
@@ -70,9 +78,17 @@ Codex CLI does not currently expose Claude Code's `statusLine.command` host API.
 ## 本地运行
 
 ```bash
-npm install
+npm ci
 npm run build
 node dist/index.js
+```
+
+从仓库根目录安装插件：
+
+```bash
+cd ../..
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
 ```
 
 渲染指定 Codex 会话：

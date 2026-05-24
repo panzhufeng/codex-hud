@@ -30,23 +30,46 @@ plugins/codex-hud/scripts/         # 本地配置辅助脚本
 
 ## 从本仓库安装
 
+要求：
+
+- 支持插件的 Codex CLI。本仓库已用 `codex-cli 0.133.0` 验证。
+- Git。
+- Node.js 18 或更新版本，用于本地 HUD 快照、footer 配置和开发命令。
+
 ```bash
-git clone https://github.com/panzhufeng/codex-hud.git
+git clone git@github.com:panzhufeng/codex-hud.git
 cd codex-hud
 codex plugin marketplace add "$PWD"
 codex plugin add codex-hud@codex-hud
 ```
 
+如果没有配置 SSH key，可以改用 HTTPS：
+
+```bash
+git clone https://github.com/panzhufeng/codex-hud.git
+```
+
 验证：
 
 ```bash
-codex plugin list | rg 'codex-hud'
+codex plugin list | grep -E 'codex-hud@codex-hud'
 node plugins/codex-hud/dist/index.js
+```
+
+然后开启新的 Codex 对话，让新安装的插件 skills 和 commands 被加载。
+
+后续升级：
+
+```bash
+cd codex-hud
+git pull
+codex plugin marketplace add "$PWD"
+codex plugin add codex-hud@codex-hud
 ```
 
 ## 全局个人安装
 
-如果想把插件作为本机全局个人插件安装，可以放到 `~/plugins/codex-hud`，并注册到默认 personal marketplace：`~/.agents/plugins/marketplace.json`。
+上面的仓库 marketplace 安装方式适合大多数用户。如果想把插件作为本机全局个人插件安装，可以放到 `~/plugins/codex-hud`，并注册到默认 personal marketplace：`~/.agents/plugins/marketplace.json`。
 
 ```bash
 mkdir -p ~/plugins ~/.agents/plugins
@@ -129,7 +152,7 @@ node scripts/configure-codex-tui-statusline.mjs
 
 ```bash
 cd plugins/codex-hud
-npm install
+npm ci
 npm run build
 npm test
 node dist/index.js
@@ -142,11 +165,18 @@ CODEX_HUD_SESSION="$HOME/.codex/sessions/YYYY/MM/DD/rollout-....jsonl" \
   node dist/index.js
 ```
 
-校验插件 manifest：
+从仓库根目录校验插件 manifest：
 
 ```bash
-python3 /path/to/plugin-creator/scripts/validate_plugin.py plugins/codex-hud
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" plugins/codex-hud
 ```
+
+## 常见问题
+
+- `codex plugin add codex-hud@codex-hud` 找不到插件：先在仓库根目录运行 `codex plugin marketplace add "$PWD"`，再重新运行 add 命令。
+- `node plugins/codex-hud/dist/index.js` 只显示 initializing：先打开至少一个 Codex 会话，或传入 `CODEX_HUD_SESSION=/path/to/rollout.jsonl`。
+- 完整 HUD 没有固定显示在 Codex 输入框下方：这是当前 Codex 平台限制。可以运行 `node plugins/codex-hud/scripts/configure-codex-tui-statusline.mjs` 配置当前最接近的原生 footer。
+- 找不到 `node`：安装 Node.js 18 或更新版本后重试。
 
 ## Codex 平台限制
 
