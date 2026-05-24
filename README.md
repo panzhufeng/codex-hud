@@ -2,7 +2,7 @@
 
 English | [中文](README.zh-CN.md)
 
-Codex HUD is a Codex plugin adaptation of [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud). It keeps the same terminal HUD renderer and adapts it to Codex by reading Codex rollout JSONL session files, exposing Codex plugin commands and skills, and optionally configuring Codex's built-in TUI footer to the closest available native fields.
+Codex HUD is a Codex plugin adaptation of [`claude-hud`](https://github.com/jarrodwatts/claude-hud). It keeps the same terminal HUD renderer and adapts it to Codex by reading Codex rollout JSONL session files, exposing Codex plugin commands and skills, and optionally configuring Codex's built-in TUI footer to the closest available native fields.
 
 ## Demo
 
