@@ -1,0 +1,38 @@
+{
+  "name": "codex-hud",
+  "version": "0.1.0+codex.20260524023221",
+  "description": "Real-time HUD for Codex sessions, adapted from claude-hud.",
+  "author": {
+    "name": "panzhufeng",
+    "url": "https://github.com/panzhufeng"
+  },
+  "repository": "https://github.com/panzhufeng/codex-hud",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "hud",
+    "statusline",
+    "monitoring",
+    "context",
+    "tools",
+    "todos"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex HUD",
+    "shortDescription": "Show context, usage, tools, agents, and todos for Codex sessions.",
+    "longDescription": "Codex HUD ports claude-hud's terminal HUD to Codex by reading Codex rollout JSONL sessions and rendering the same context, usage, tool activity, agent, todo, git, and session metadata lines.",
+    "developerName": "panzhufeng",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Local"
+    ],
+    "defaultPrompt": [
+      "Set up Codex HUD for this machine.",
+      "Show my latest Codex HUD snapshot.",
+      "Run /configure to customize Codex HUD."
+    ],
+    "brandColor": "#10A37F"
+  }
+}
