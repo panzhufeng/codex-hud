@@ -70,7 +70,7 @@ This updates `${CODEX_HOME:-~/.codex}/config.toml` with `[tui].status_line` entr
 
 ## Codex Host Limitation
 
-`claude-hud` installs itself as a Claude Code `statusLine` command. Codex CLI 0.133.0 exposes plugin skills, commands, marketplace installation, hooks, and a fixed native `[tui].status_line` list, but no equivalent command-backed host API that pins arbitrary stdout below the input box. Codex HUD therefore verifies by rendering a snapshot command, exposes setup/configure plugin entries, and can configure the closest native fixed footer. If Codex adds a command-backed statusline hook later, wire the generated command to the installed `dist/index.js`.
+`claude-hud` installs itself as a Claude Code `statusLine` command. Codex CLI 0.133.0 exposes plugin skills, marketplace installation, hooks, and a fixed native `[tui].status_line` list, but no equivalent command-backed host API that pins arbitrary stdout below the input box. Codex HUD therefore verifies by rendering a snapshot command, exposes setup/configure skills, and can configure the closest native fixed footer. If Codex adds a command-backed statusline hook later, wire the generated command to the installed `dist/index.js`.
 
 ## Expected Success
 

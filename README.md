@@ -2,7 +2,7 @@
 
 English | [中文](README.zh-CN.md)
 
-Codex HUD is a Codex plugin adaptation of [`claude-hud`](https://github.com/jarrodwatts/claude-hud). It keeps the same terminal HUD renderer and adapts it to Codex by reading Codex rollout JSONL session files, exposing Codex plugin commands and skills, and optionally configuring Codex's built-in TUI footer to the closest available native fields.
+Codex HUD is a Codex plugin adaptation of [`claude-hud`](https://github.com/jarrodwatts/claude-hud). It keeps the same terminal HUD renderer and adapts it to Codex by reading Codex rollout JSONL session files, exposing Codex skills and helper scripts, and optionally configuring Codex's built-in TUI footer to the closest available native fields.
 
 ## Demo
 
@@ -23,7 +23,6 @@ Codex HUD is a Codex plugin adaptation of [`claude-hud`](https://github.com/jarr
 .agents/plugins/marketplace.json   # repository-local Codex marketplace
 plugins/codex-hud/                 # Codex plugin source
 plugins/codex-hud/dist/            # built runtime included for plugin installs
-plugins/codex-hud/commands/        # /setup and /configure plugin commands
 plugins/codex-hud/skills/          # Codex skills for setup/configuration
 plugins/codex-hud/scripts/         # local configuration helpers
 ```
@@ -56,7 +55,7 @@ codex plugin list | grep -E 'codex-hud@codex-hud'
 node plugins/codex-hud/dist/index.js
 ```
 
-Then start a new Codex thread so the newly installed plugin skills and commands are loaded.
+Then start a new Codex thread so the newly installed plugin skills are loaded.
 
 To upgrade later:
 
@@ -137,16 +136,16 @@ node scripts/configure-codex-tui-statusline.mjs
 
 This writes `[tui].status_line` in `~/.codex/config.toml` using native Codex items such as `model-with-reasoning`, `current-dir`, `git-branch`, `context-used`, `five-hour-limit`, and `weekly-limit`. A timestamped backup is created before changing an existing config.
 
-## Plugin Commands
+## Codex Skills
 
-After installation, start a new Codex thread and use:
+After installation, start a new Codex thread and ask Codex to set up, verify, run, or customize Codex HUD. For example:
 
 ```text
-/setup
-/configure
+Set up Codex HUD for this machine.
+Configure Codex HUD for my workflow.
 ```
 
-The plugin also exposes setup and configuration skills that Codex can invoke when you ask it to install, verify, run, or customize Codex HUD.
+Codex HUD exposes setup and configuration skills; it does not install `/setup` or `/configure` slash commands.
 
 ## Development
 
@@ -180,8 +179,8 @@ python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/valid
 
 ## Codex Platform Limitation
 
-`claude-hud` uses Claude Code's native `statusLine.command` API to pin arbitrary command output below the input area. Codex CLI currently supports plugins, skills, commands, hooks, apps/MCP, and a fixed native `[tui].status_line` list, but it does not expose an equivalent command-backed statusline provider. Because of that, Codex HUD provides the renderer, session parser, commands, skills, config tools, and the closest native footer setup available today, but it cannot yet pin the full ANSI HUD in exactly the same place as `claude-hud`.
+`claude-hud` uses Claude Code's native `statusLine.command` API to pin arbitrary command output below the input area. Codex CLI currently supports plugins, skills, hooks, apps/MCP, and a fixed native `[tui].status_line` list, but it does not expose an equivalent command-backed statusline provider. Because of that, Codex HUD provides the renderer, session parser, skills, config tools, and the closest native footer setup available today, but it cannot yet pin the full ANSI HUD in exactly the same place as `claude-hud`.
 
 ## Credits
 
-Adapted from [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud). The Codex rollout parser, Codex plugin packaging, setup/configure commands, and Codex TUI footer helper are specific to this repository.
+Adapted from [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud). The Codex rollout parser, Codex plugin packaging, setup/configuration skills, and Codex TUI footer helper are specific to this repository.

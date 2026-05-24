@@ -31,7 +31,7 @@
     "defaultPrompt": [
       "Set up Codex HUD for this machine.",
       "Show my latest Codex HUD snapshot.",
-      "Run /configure to customize Codex HUD."
+      "Configure Codex HUD for my workflow."
     ],
     "brandColor": "#10A37F"
   }

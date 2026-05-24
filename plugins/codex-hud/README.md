@@ -53,8 +53,6 @@ node scripts/configure-codex-tui-statusline.mjs
 ## Plugin Surfaces
 
 ```text
-commands/setup.md
-commands/configure.md
 skills/codex-hud/SKILL.md
 skills/codex-hud-setup/SKILL.md
 skills/codex-hud-configure/SKILL.md
@@ -124,8 +122,6 @@ node scripts/configure-codex-tui-statusline.mjs
 ## 插件入口
 
 ```text
-commands/setup.md
-commands/configure.md
 skills/codex-hud/SKILL.md
 skills/codex-hud-setup/SKILL.md
 skills/codex-hud-configure/SKILL.md
